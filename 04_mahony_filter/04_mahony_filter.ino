@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-// ===== Mahony Filter (inline — no separate files needed) =====
+//  Mahony Filter (inline — no separate files needed) 
 #define sampleFreq  100.0f
 #define twoKpDef    2.0f
 #define twoKiDef    0.0f
@@ -65,7 +65,7 @@ void MahonyUpdate(float gx, float gy, float gz,
   q2 *= recipNorm; q3 *= recipNorm;
 }
 
-// ===== MPU6050 =====
+//  MPU6050 
 #define MPU_ADDR     0x68
 #define PWR_MGMT_1   0x6B
 #define ACCEL_XOUT_H 0x3B
@@ -120,7 +120,7 @@ void calibrate(int samples = 1000) {
   Serial.println("Done.\n");
 }
 
-// ===== Main =====
+//  Main 
 void setup() {
   Serial.begin(115200);
   Wire.begin(21, 22);

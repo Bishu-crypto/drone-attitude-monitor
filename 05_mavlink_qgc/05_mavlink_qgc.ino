@@ -213,6 +213,7 @@ void checkIncoming() {
 // ===== Setup =====
 void setup() {
   Serial.begin(115200);
+  delay(3000);
   Wire.begin(21, 22);
   delay(500);
 
