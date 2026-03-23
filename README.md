@@ -3,25 +3,18 @@
 
 A real-time 6-DOF attitude telemetry system I built from scratch on an ESP32. It reads raw IMU data from an MPU6050, runs a Mahony AHRS filter to compute stable roll/pitch/yaw angles, and streams them wirelessly to QGroundControl via MAVLink v2 over WiFi UDP — the same protocol used in real drone autopilots like ArduPilot and PX4.
 
-The ESP32 also hosts a browser-based GPIO control panel accessible at `192.168.4.1`, letting you toggle digital outputs, control servos via PWM, and read ADC voltages — all from any browser on the same WiFi network.
 
-> Built as a major portfolio project during my BS Electronic Systems program at IIT Madras.
-
----
 
 ## Demo
 
-<!-- Add demo GIF here — board tilting, QGC HUD responding -->
+**QGC connected and receiving data and also with a Live Web browser dashboard to showcase the GPIO **
+https://drive.google.com/file/d/1jTGKAHWES5KZUd1UefdU3_yGa9AmR3we/view?usp=sharing
 
-**QGC connected and receiving live attitude data:**
 
-<!-- Add QGC screenshot here -->
+**QGC connected and receiving live attitude data and visulaize with 3D Drone :**
+https://drive.google.com/file/d/1OKWy9WbMVMygv1N0-mZauoA6sQa3YxYG/view?usp=sharing
 
-**Hardware setup:**
 
-<!-- Add wiring photo here -->
-
----
 
 ## What it does
 
@@ -33,9 +26,7 @@ The system has three parallel interfaces running simultaneously:
 | Browser dashboard | WebSocket JSON | Live angle readouts, GPIO state |
 | Browser GPIO panel | HTTP REST API | Toggle pins, control servo, read ADC |
 
-ESP32 runs as a WiFi Access Point at `192.168.4.1`. No router needed — connect directly.
 
----
 
 ## System architecture
 
@@ -76,7 +67,7 @@ ESP32
 
 | MPU6050 pin | ESP32 pin | Notes |
 |-------------|-----------|-------|
-| VCC | 3.3V | ⚠️ Do NOT use 5V |
+| VCC | 3.3V | 
 | GND | GND | Common ground |
 | SDA | GPIO 21 | I2C data |
 | SCL | GPIO 22 | I2C clock |
@@ -96,14 +87,10 @@ drone-attitude-monitor/
 ├── 04_mahony_filter/       # Sensor fusion → stable roll/pitch/yaw
 ├── 05_mavlink_qgc/         # MAVLink v2 over WiFi UDP → QGC HUD
 ├── 06_full_system/         # Everything: MAVLink + WebSocket + GPIO API
-├── docs/
-│   ├── wiring.md           # Detailed wiring guide
-│   ├── serial_output/      # Screenshots of each stage output
-│   └── qgc_screenshots/    # QGC connected and HUD screenshots
 └── README.md
 ```
 
----
+
 
 ## How it works — the interesting parts
 
@@ -119,7 +106,7 @@ MAVLink is the industry standard protocol for drone telemetry — used by ArduPi
 
 Attitude data is time-sensitive. If a packet is lost, you don't want to wait for retransmission — you want the next fresh reading immediately. UDP is fire-and-forget: lower latency, no handshaking overhead, ideal for real-time sensor streaming. QGC uses UDP by default for exactly this reason.
 
----
+
 
 ## GPIO HTTP API
 
